@@ -29,7 +29,8 @@ export class RecipesController {
   @Get(':id')
   async findOne(@Param('id') id: string) {
     const foundRecipe = await this.recipesService.findOne(+id);
-    return new ResponseRecipeDTO(foundRecipe);
+    // return new ResponseRecipeDTO(foundRecipe);
+    return foundRecipe;
   }
 
   @Patch(':id')

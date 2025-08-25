@@ -4,6 +4,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { ListsModule } from './lists/lists.module';
+import { ProductsModule } from './products/products.module';
 import { RecipesModule } from './recipes/recipes.module';
 
 @Module({
@@ -20,10 +22,14 @@ import { RecipesModule } from './recipes/recipes.module';
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
         entities: [join(process.cwd(), 'dist/**/*.entity.js')],
-        synchronize: true,
+        autoLoadEntities: true,
+        // synchronize: true,
+        // dropSchema: true,
       }),
     }),
     RecipesModule,
+    ListsModule,
+    ProductsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
