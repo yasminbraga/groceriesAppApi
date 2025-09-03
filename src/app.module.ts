@@ -23,7 +23,7 @@ import { RecipesModule } from './recipes/recipes.module';
         database: configService.get('DB_NAME'),
         entities: [join(process.cwd(), 'dist/**/*.entity.js')],
         autoLoadEntities: true,
-        // synchronize: true,
+        synchronize: true,
         // dropSchema: true,
       }),
     }),
