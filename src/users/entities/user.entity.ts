@@ -1,8 +1,10 @@
 import { IsEmail, Length } from 'class-validator';
+import { Recipe } from 'src/recipes/entities/recipe.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -34,4 +36,7 @@ export class User {
     default: () => 'CURRENT_TIMESTAMP(6)',
   })
   updatedAt: Date;
+
+  @OneToMany(() => Recipe, (recipes) => recipes.user)
+  recipes: Recipe[];
 }

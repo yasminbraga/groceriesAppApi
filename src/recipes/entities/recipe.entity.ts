@@ -1,8 +1,10 @@
 import { List } from 'src/lists/entities/list.entity';
+import { User } from 'src/users/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -36,4 +38,7 @@ export class Recipe {
     default: () => 'CURRENT_TIMESTAMP(6)',
   })
   updatedAt: Date;
+
+  @ManyToOne(() => User, (user) => user.recipes)
+  user: User;
 }

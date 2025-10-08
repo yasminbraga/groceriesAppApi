@@ -6,11 +6,14 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from 'src/auth/auth.guard';
 import { RequestRecipeDto } from './dto/request-recipe.dto';
 import { ResponseRecipeDTO } from './dto/response-recipe.dto';
 import { RecipesService } from './recipes.service';
 
+@UseGuards(AuthGuard)
 @Controller('recipes')
 export class RecipesController {
   constructor(private readonly recipesService: RecipesService) {}
