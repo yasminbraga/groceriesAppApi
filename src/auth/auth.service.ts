@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcrypt';
+import { User } from 'src/users/entities/user.entity';
 import { UsersService } from 'src/users/users.service';
 
 @Injectable()
@@ -14,7 +15,10 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async login(email: string, pass: string): Promise<{ token: string }> {
+  async login(
+    email: string,
+    pass: string,
+  ): Promise<{ token: string; user: User }> {
     const user = await this.usersService.findOneBy(email);
     if (!user) {
       throw new BadRequestException('Invalid email');
@@ -28,6 +32,6 @@ export class AuthService {
     const payload = { sub: user.id, email: user.email };
 
     const token = await this.jwtService.signAsync(payload);
-    return { token };
+    return { token, user };
   }
 }
