@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
 import { RequestRecipeDto } from './dto/request-recipe.dto';
 import { ResponseRecipeDTO } from './dto/response-recipe.dto';
@@ -9,14 +10,22 @@ import { Recipe } from './entities/recipe.entity';
 export class RecipesService {
   constructor(
     @InjectRepository(Recipe) private recipeRepository: Repository<Recipe>,
+    @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
-  async create(requestRecipeDto: RequestRecipeDto) {
-    const newRecipe = this.recipeRepository.create(requestRecipeDto);
+  async create(requestRecipeDto: RequestRecipeDto, userId: string) {
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    const newRecipe = this.recipeRepository.create({
+      ...requestRecipeDto,
+      user,
+    });
     return await this.recipeRepository.save(newRecipe);
   }
 
   async findAll() {
-    return await this.recipeRepository.find();
+    return await this.recipeRepository.find({ relations: ['user'] });
   }
 
   async findOne(id: number) {

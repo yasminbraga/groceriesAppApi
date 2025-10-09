@@ -39,6 +39,6 @@ export class Recipe {
   })
   updatedAt: Date;
 
-  @ManyToOne(() => User, (user) => user.recipes)
+  @ManyToOne(() => User, (user) => user.recipes, { onDelete: 'CASCADE' })
   user: User;
 }
