@@ -1,5 +1,14 @@
 import { List } from 'src/lists/entities/list.entity';
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from 'src/users/entities/user.entity';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity({ name: 'recipes' })
 export class Recipe {
@@ -17,4 +26,19 @@ export class Recipe {
 
   @OneToOne(() => List, (list) => list.recipe)
   list?: List;
+
+  @CreateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+  })
+  createdAt: Date;
+
+  @UpdateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+  })
+  updatedAt: Date;
+
+  @ManyToOne(() => User, (user) => user.recipes, { onDelete: 'CASCADE' })
+  user: User;
 }

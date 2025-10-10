@@ -26,7 +26,7 @@ import { UsersModule } from './users/users.module';
         entities: [join(process.cwd(), 'dist/**/*.entity.js')],
         autoLoadEntities: true,
         synchronize: true,
-        // dropSchema: true,
+        dropSchema: true,
       }),
     }),
     RecipesModule,
