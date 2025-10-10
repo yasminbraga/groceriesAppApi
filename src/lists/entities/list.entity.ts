@@ -1,5 +1,6 @@
 import { Product } from 'src/products/entities/product.entity';
 import { Recipe } from 'src/recipes/entities/recipe.entity';
+import { UserList } from 'src/userLists/userList.entity';
 import {
   Column,
   CreateDateColumn,
@@ -41,4 +42,7 @@ export class List {
   @OneToOne(() => Recipe, { nullable: true, onDelete: 'SET NULL' })
   @JoinColumn({ name: 'recipe_id' })
   recipe?: Recipe;
+
+  @OneToMany(() => UserList, (userList) => userList.list)
+  userList: UserList[];
 }
