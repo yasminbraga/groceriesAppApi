@@ -66,15 +66,15 @@ export class ListsService {
     return await this.listRepository.find({ relations: ['recipe'] });
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     return await this.listRepository.findOne({ where: { id } });
   }
 
-  async update(id: number, responseListDto: ResponseListDto) {
+  async update(id: string, responseListDto: ResponseListDto) {
     return await this.listRepository.update(id, responseListDto);
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     return await this.listRepository.delete(id);
   }
 }

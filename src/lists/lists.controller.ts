@@ -27,8 +27,8 @@ export class ListsController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: number) {
-    const foundList = await this.listsService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    const foundList = await this.listsService.findOne(id);
 
     // return new ResponseListDto(foundList);
     return foundList;
@@ -39,11 +39,11 @@ export class ListsController {
     @Param('id') id: string,
     @Body() responseListDto: ResponseListDto,
   ) {
-    return await this.listsService.update(+id, responseListDto);
+    return await this.listsService.update(id, responseListDto);
   }
 
   @Delete(':id')
   async remove(@Param('id') id: string) {
-    return await this.listsService.remove(+id);
+    return await this.listsService.remove(id);
   }
 }

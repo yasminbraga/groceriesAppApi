@@ -16,7 +16,7 @@ export class UserListService {
 
   async addUserToList(
     userId: string,
-    listId: number,
+    listId: string,
     isCreatedByTheUser: boolean,
   ) {
     const user = await this.userRepository.findOne({
