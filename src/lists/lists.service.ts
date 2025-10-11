@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from 'src/products/entities/product.entity';
 import { Recipe } from 'src/recipes/entities/recipe.entity';
+import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
 import { RequestListDto } from './dto/request-list.dto';
 import { ResponseListDto } from './dto/response-list.dto';
@@ -13,11 +14,16 @@ export class ListsService {
     @InjectRepository(List) private listRepository: Repository<List>,
     @InjectRepository(Recipe) private recipeRepository: Repository<Recipe>,
     @InjectRepository(Product) private productRepository: Repository<Product>,
+    @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
 
-  async create(requestListDto: RequestListDto) {
+  async create(requestListDto: RequestListDto, userId: string) {
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+    if (!user) {
+      throw new NotFoundException('User not Found');
+    }
+
     const { recipeId, title, products } = requestListDto;
-    console.log(recipeId, title, products);
 
     let recipe: Recipe | null = null;
     let productsFromRecipe = products;
