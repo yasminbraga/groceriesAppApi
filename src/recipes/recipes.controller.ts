@@ -30,7 +30,7 @@ export class RecipesController {
       createRecipeDto,
       userId,
     );
-    return new ResponseRecipeDTO(createdRecipe);
+    return createdRecipe;
   }
 
   @Get()
