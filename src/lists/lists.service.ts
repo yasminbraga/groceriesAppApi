@@ -81,9 +81,8 @@ export class ListsService {
       .leftJoinAndSelect('list.recipe', 'recipe')
       .innerJoin('list.userList', 'ul')
       .where('ul.user.id = :userId', { userId })
+      .orderBy('createdAt', 'DESC')
       .getMany();
-
-    // return await this.listRepository.find({ relations: ['recipe'] });
   }
 
   async findOne(id: string) {
