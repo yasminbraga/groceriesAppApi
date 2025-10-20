@@ -1,5 +1,6 @@
 import { IsEmail, Length } from 'class-validator';
 import { Recipe } from 'src/recipes/entities/recipe.entity';
+import { UserList } from 'src/userLists/userList.entity';
 import {
   Column,
   CreateDateColumn,
@@ -39,4 +40,7 @@ export class User {
 
   @OneToMany(() => Recipe, (recipes) => recipes.user)
   recipes: Recipe[];
+
+  @OneToMany(() => UserList, (userList) => userList.user)
+  userList: UserList[];
 }

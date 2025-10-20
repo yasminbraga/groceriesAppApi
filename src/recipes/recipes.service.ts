@@ -21,7 +21,8 @@ export class RecipesService {
       ...requestRecipeDto,
       user,
     });
-    return await this.recipeRepository.save(newRecipe);
+    await this.recipeRepository.save(newRecipe);
+    return newRecipe;
   }
 
   async findAll() {

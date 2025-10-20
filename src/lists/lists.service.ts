@@ -2,6 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from 'src/products/entities/product.entity';
 import { Recipe } from 'src/recipes/entities/recipe.entity';
+import { UserList } from 'src/userLists/userList.entity';
+import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
 import { RequestListDto } from './dto/request-list.dto';
 import { ResponseListDto } from './dto/response-list.dto';
@@ -13,11 +15,18 @@ export class ListsService {
     @InjectRepository(List) private listRepository: Repository<List>,
     @InjectRepository(Recipe) private recipeRepository: Repository<Recipe>,
     @InjectRepository(Product) private productRepository: Repository<Product>,
+    @InjectRepository(User) private userRepository: Repository<User>,
+    @InjectRepository(UserList)
+    private userListRepository: Repository<UserList>,
   ) {}
 
-  async create(requestListDto: RequestListDto) {
+  async create(requestListDto: RequestListDto, userId: string) {
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+    if (!user) {
+      throw new NotFoundException('User not Found');
+    }
+
     const { recipeId, title, products } = requestListDto;
-    console.log(recipeId, title, products);
 
     let recipe: Recipe | null = null;
     let productsFromRecipe = products;
@@ -45,7 +54,7 @@ export class ListsService {
     //   throw new Error('This recipe is already associated with another list');
     // }
 
-    const newList = this.listRepository.create({
+    const list = this.listRepository.create({
       title,
       products: productsFromRecipe?.map((product) =>
         this.productRepository.create(product),
@@ -53,22 +62,38 @@ export class ListsService {
       ...(recipe && { recipe }),
     });
 
-    return await this.listRepository.save(newList);
+    await this.listRepository.save(list);
+
+    const userList = this.userListRepository.create({
+      list,
+      user,
+      isCreatedByTheUser: true,
+    });
+    await this.userListRepository.save(userList);
+
+    return list;
   }
 
-  async findAll() {
-    return await this.listRepository.find({ relations: ['recipe'] });
+  async findAllByLoggedUser(userId: string): Promise<List[]> {
+    return await this.listRepository
+      .createQueryBuilder('list')
+      .leftJoinAndSelect('list.products', 'product')
+      .leftJoinAndSelect('list.recipe', 'recipe')
+      .innerJoin('list.userList', 'ul')
+      .where('ul.user.id = :userId', { userId })
+      .orderBy('createdAt', 'DESC')
+      .getMany();
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     return await this.listRepository.findOne({ where: { id } });
   }
 
-  async update(id: number, responseListDto: ResponseListDto) {
+  async update(id: string, responseListDto: ResponseListDto) {
     return await this.listRepository.update(id, responseListDto);
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     return await this.listRepository.delete(id);
   }
 }
