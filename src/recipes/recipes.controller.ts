@@ -57,4 +57,12 @@ export class RecipesController {
   async remove(@Param('id') id: string) {
     return await this.recipesService.remove(+id);
   }
+
+  @Post('many')
+  async createMany(
+    @Body() createRecipeDto: RequestRecipeDto[],
+    @Req() req: AuthenticatedRequest,
+  ) {
+    return await this.recipesService.createMany(createRecipeDto, req.user.sub);
+  }
 }

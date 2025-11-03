@@ -29,6 +29,11 @@ export class RecipesService {
     return await this.recipeRepository.find({ relations: ['user'] });
   }
 
+  async createMany(requestRecipeDto: RequestRecipeDto[], userId: string) {
+    const data = requestRecipeDto.map((recipe) => ({ ...recipe, userId }));
+    return await this.recipeRepository.save(data);
+  }
+
   async findOne(id: number) {
     return await this.recipeRepository.findOne({ where: { id } });
   }

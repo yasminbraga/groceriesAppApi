@@ -81,7 +81,7 @@ export class ListsService {
       .leftJoinAndSelect('list.recipe', 'recipe')
       .innerJoin('list.userList', 'ul')
       .where('ul.user.id = :userId', { userId })
-      .orderBy('createdAt', 'DESC')
+      .orderBy('list.createdAt', 'DESC')
       .getMany();
   }
 
