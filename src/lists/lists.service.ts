@@ -96,4 +96,26 @@ export class ListsService {
   async remove(id: string) {
     return await this.listRepository.delete(id);
   }
+
+  async share(id: string, email: string) {
+    // pegar o user a ser compartilhado pelo email
+    const user = await this.userRepository.findOneBy({ email });
+    if (!user) {
+      throw new NotFoundException('User not Found');
+    }
+    //pegar a lista pelo id
+    const list = await this.listRepository.findOne({ where: { id } });
+    if (!list) {
+      throw new NotFoundException('List not Found');
+    }
+    //criar listUser com list e id e isCreatedByUser: false
+    const userList = this.userListRepository.create({
+      list,
+      user,
+      isCreatedByTheUser: false,
+    });
+    await this.userListRepository.save(userList);
+
+    //gerar uma notificacao para o usuario compartilhado
+  }
 }
