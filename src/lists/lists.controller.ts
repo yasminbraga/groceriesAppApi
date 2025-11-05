@@ -59,7 +59,12 @@ export class ListsController {
   }
 
   @Post(':id/share')
-  async share(@Param('id') id: string, @Body() email: string) {
-    return await this.listsService.share(id, email);
+  async share(
+    @Param('id') id: string,
+    @Body() email: string,
+    @Req() req: AuthenticatedRequest,
+  ) {
+    const userId = req.user.sub;
+    return await this.listsService.share(id, email, userId);
   }
 }

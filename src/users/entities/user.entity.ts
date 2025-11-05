@@ -1,4 +1,5 @@
 import { IsEmail, Length } from 'class-validator';
+import { Notification } from 'src/notifications/entities/notification.entity';
 import { Recipe } from 'src/recipes/entities/recipe.entity';
 import { UserList } from 'src/userLists/userList.entity';
 import {
@@ -43,4 +44,7 @@ export class User {
 
   @OneToMany(() => UserList, (userList) => userList.user)
   userList: UserList[];
+
+  @OneToMany(() => Notification, (notifications) => notifications.user)
+  notifications: Notification[];
 }

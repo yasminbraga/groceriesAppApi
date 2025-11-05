@@ -1,5 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ok } from 'assert';
+import { Notification } from 'src/notifications/entities/notification.entity';
 import { Product } from 'src/products/entities/product.entity';
 import { Recipe } from 'src/recipes/entities/recipe.entity';
 import { UserList } from 'src/userLists/userList.entity';
@@ -18,6 +20,8 @@ export class ListsService {
     @InjectRepository(User) private userRepository: Repository<User>,
     @InjectRepository(UserList)
     private userListRepository: Repository<UserList>,
+    @InjectRepository(Notification)
+    private notificationRepository: Repository<Notification>,
   ) {}
 
   async create(requestListDto: RequestListDto, userId: string) {
@@ -97,10 +101,17 @@ export class ListsService {
     return await this.listRepository.delete(id);
   }
 
-  async share(id: string, email: string) {
+  async share(id: string, email: string, fromId: string) {
     // pegar o user a ser compartilhado pelo email
     const user = await this.userRepository.findOneBy({ email });
     if (!user) {
+      throw new NotFoundException('User not Found');
+    }
+
+    const fromUser = await this.userRepository.findOne({
+      where: { id: fromId },
+    });
+    if (!fromUser) {
       throw new NotFoundException('User not Found');
     }
     //pegar a lista pelo id
@@ -116,6 +127,20 @@ export class ListsService {
     });
     await this.userListRepository.save(userList);
 
+    const type = 'LIST_SHARED';
+    const message = `${fromUser.name} compartilhou a lista ${list.title} com você!`;
+    const resourceUrl = `/lists/${list.id}`;
+
     //gerar uma notificacao para o usuario compartilhado
+    const notification = this.notificationRepository.create({
+      user,
+      message,
+      type,
+      resourceUrl,
+      fromId,
+    });
+    await this.notificationRepository.save(notification);
+
+    return ok;
   }
 }
