@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Notification } from 'src/notifications/entities/notification.entity';
+import { NotificationsModule } from 'src/notifications/notifications.module';
 import { Product } from 'src/products/entities/product.entity';
 import { Recipe } from 'src/recipes/entities/recipe.entity';
 import { UserList } from 'src/userLists/userList.entity';
@@ -19,6 +20,7 @@ import { ListsService } from './lists.service';
       User,
       Notification,
     ]),
+    NotificationsModule,
   ],
   controllers: [ListsController],
   providers: [ListsService],

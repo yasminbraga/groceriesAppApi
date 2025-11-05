@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ok } from 'assert';
 import { Notification } from 'src/notifications/entities/notification.entity';
+import { NotificationsService } from 'src/notifications/notifications.service';
 import { Product } from 'src/products/entities/product.entity';
 import { Recipe } from 'src/recipes/entities/recipe.entity';
 import { UserList } from 'src/userLists/userList.entity';
@@ -22,6 +22,7 @@ export class ListsService {
     private userListRepository: Repository<UserList>,
     @InjectRepository(Notification)
     private notificationRepository: Repository<Notification>,
+    private notificationService: NotificationsService,
   ) {}
 
   async create(requestListDto: RequestListDto, userId: string) {
@@ -127,20 +128,15 @@ export class ListsService {
     });
     await this.userListRepository.save(userList);
 
-    const type = 'LIST_SHARED';
-    const message = `${fromUser.name} compartilhou a lista ${list.title} com você!`;
-    const resourceUrl = `/lists/${list.id}`;
-
     //gerar uma notificacao para o usuario compartilhado
-    const notification = this.notificationRepository.create({
+    await this.notificationService.notificate({
       user,
-      message,
-      type,
-      resourceUrl,
+      message: `${fromUser.name} compartilhou a lista ${list.title} com você!`,
+      type: 'LIST_SHARED',
+      resourceUrl: `/lists/${list.id}`,
       fromId,
     });
-    await this.notificationRepository.save(notification);
 
-    return ok;
+    return { message: 'Lista compartilhada com sucesso!' };
   }
 }
