@@ -25,4 +25,8 @@ export class NotificationsService {
     });
     return await this.notificationRepository.save(notification);
   }
+
+  async findAllByLoggedUser(userId: string): Promise<Notification[]> {
+    return await this.notificationRepository.find({ where: { id: userId } });
+  }
 }

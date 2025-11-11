@@ -61,7 +61,7 @@ export class ListsController {
   @Post(':id/share')
   async share(
     @Param('id') id: string,
-    @Body() email: string,
+    @Body('email') email: string,
     @Req() req: AuthenticatedRequest,
   ) {
     const userId = req.user.sub;

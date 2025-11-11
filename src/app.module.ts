@@ -6,10 +6,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { ListsModule } from './lists/lists.module';
+import { NotificationsModule } from './notifications/notifications.module';
 import { ProductsModule } from './products/products.module';
 import { RecipesModule } from './recipes/recipes.module';
 import { UsersModule } from './users/users.module';
-import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
   imports: [
@@ -27,7 +27,7 @@ import { NotificationsModule } from './notifications/notifications.module';
         entities: [join(process.cwd(), 'dist/**/*.entity.js')],
         autoLoadEntities: true,
         synchronize: true,
-        dropSchema: true,
+        dropSchema: false,
       }),
     }),
     RecipesModule,

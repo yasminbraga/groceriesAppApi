@@ -17,7 +17,8 @@ export class ListsService {
     @InjectRepository(List) private listRepository: Repository<List>,
     @InjectRepository(Recipe) private recipeRepository: Repository<Recipe>,
     @InjectRepository(Product) private productRepository: Repository<Product>,
-    @InjectRepository(User) private userRepository: Repository<User>,
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
     @InjectRepository(UserList)
     private userListRepository: Repository<UserList>,
     @InjectRepository(Notification)
@@ -103,24 +104,22 @@ export class ListsService {
   }
 
   async share(id: string, email: string, fromId: string) {
-    // pegar o user a ser compartilhado pelo email
     const user = await this.userRepository.findOneBy({ email });
+    console.log(user);
     if (!user) {
-      throw new NotFoundException('User not Found');
+      throw new NotFoundException('User to share not Found');
     }
 
     const fromUser = await this.userRepository.findOne({
       where: { id: fromId },
     });
     if (!fromUser) {
-      throw new NotFoundException('User not Found');
+      throw new NotFoundException('User sharing not Found');
     }
-    //pegar a lista pelo id
     const list = await this.listRepository.findOne({ where: { id } });
     if (!list) {
       throw new NotFoundException('List not Found');
     }
-    //criar listUser com list e id e isCreatedByUser: false
     const userList = this.userListRepository.create({
       list,
       user,
@@ -128,7 +127,6 @@ export class ListsService {
     });
     await this.userListRepository.save(userList);
 
-    //gerar uma notificacao para o usuario compartilhado
     await this.notificationService.notificate({
       user,
       message: `${fromUser.name} compartilhou a lista ${list.title} com você!`,
