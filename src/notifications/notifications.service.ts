@@ -26,10 +26,19 @@ export class NotificationsService {
     return await this.notificationRepository.save(notification);
   }
 
-  async findAllByLoggedUser(userId: string): Promise<Notification[]> {
-    return await this.notificationRepository.find({
-      where: { user: { id: userId } },
-      order: { createdAt: 'DESC' },
-    });
+  async findAllByLoggedUser(userId: string) {
+    const qb = this.notificationRepository
+      .createQueryBuilder('notification')
+      .where('notification.userId = :userId', { userId });
+
+    const notifications = await qb
+      .orderBy('notification.createdAt', 'DESC')
+      .getMany();
+
+    const unreadCount = await qb
+      .andWhere('notification.isRead = false')
+      .getCount();
+
+    return { notifications, unreadCount };
   }
 }
