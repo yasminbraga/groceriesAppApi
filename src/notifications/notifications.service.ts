@@ -41,4 +41,8 @@ export class NotificationsService {
 
     return { notifications, unreadCount };
   }
+
+  async findOne(id: string) {
+    return await this.notificationRepository.findOne({ where: { id } });
+  }
 }

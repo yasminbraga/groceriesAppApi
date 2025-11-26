@@ -1,4 +1,4 @@
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { AuthenticatedRequest } from 'src/auth/interfaces/auth-request.interface';
 import { NotificationsService } from './notifications.service';
@@ -12,5 +12,11 @@ export class NotificationsController {
   findAll(@Req() req: AuthenticatedRequest) {
     const userId = req.user.sub;
     return this.notificationService.findAllByLoggedUser(userId);
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    const notification = this.notificationService.findOne(id);
+    return notification;
   }
 }
