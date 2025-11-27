@@ -36,7 +36,6 @@ export class UserListService {
       list,
       isCreatedByTheUser,
     });
-
     return await this.userListRepository.save(userList);
   }
 }

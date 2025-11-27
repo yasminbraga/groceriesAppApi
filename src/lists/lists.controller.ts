@@ -57,4 +57,14 @@ export class ListsController {
   async remove(@Param('id') id: string) {
     return await this.listsService.remove(id);
   }
+
+  @Post(':id/share')
+  async share(
+    @Param('id') id: string,
+    @Body('email') email: string,
+    @Req() req: AuthenticatedRequest,
+  ) {
+    const userId = req.user.sub;
+    return await this.listsService.share(id, email, userId);
+  }
 }

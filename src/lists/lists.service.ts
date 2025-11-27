@@ -1,5 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Notification } from 'src/notifications/entities/notification.entity';
+import { NotificationsService } from 'src/notifications/notifications.service';
 import { Product } from 'src/products/entities/product.entity';
 import { Recipe } from 'src/recipes/entities/recipe.entity';
 import { UserList } from 'src/userLists/userList.entity';
@@ -15,9 +17,13 @@ export class ListsService {
     @InjectRepository(List) private listRepository: Repository<List>,
     @InjectRepository(Recipe) private recipeRepository: Repository<Recipe>,
     @InjectRepository(Product) private productRepository: Repository<Product>,
-    @InjectRepository(User) private userRepository: Repository<User>,
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
     @InjectRepository(UserList)
     private userListRepository: Repository<UserList>,
+    @InjectRepository(Notification)
+    private notificationRepository: Repository<Notification>,
+    private notificationService: NotificationsService,
   ) {}
 
   async create(requestListDto: RequestListDto, userId: string) {
@@ -95,5 +101,40 @@ export class ListsService {
 
   async remove(id: string) {
     return await this.listRepository.delete(id);
+  }
+
+  async share(id: string, email: string, fromId: string) {
+    const user = await this.userRepository.findOneBy({ email });
+    console.log(user);
+    if (!user) {
+      throw new NotFoundException('User to share not Found');
+    }
+
+    const fromUser = await this.userRepository.findOne({
+      where: { id: fromId },
+    });
+    if (!fromUser) {
+      throw new NotFoundException('User sharing not Found');
+    }
+    const list = await this.listRepository.findOne({ where: { id } });
+    if (!list) {
+      throw new NotFoundException('List not Found');
+    }
+    const userList = this.userListRepository.create({
+      list,
+      user,
+      isCreatedByTheUser: false,
+    });
+    await this.userListRepository.save(userList);
+
+    await this.notificationService.notificate({
+      user,
+      message: `${fromUser.name} compartilhou a lista ${list.title} com você!`,
+      type: 'LIST_SHARED',
+      resourceUrl: `/lists/${list.id}`,
+      fromId,
+    });
+
+    return { message: 'Lista compartilhada com sucesso!' };
   }
 }
