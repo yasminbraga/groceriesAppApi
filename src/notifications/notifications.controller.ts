@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Patch, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { AuthenticatedRequest } from 'src/auth/interfaces/auth-request.interface';
 import { NotificationsService } from './notifications.service';
@@ -18,5 +18,10 @@ export class NotificationsController {
   findOne(@Param('id') id: string) {
     const notification = this.notificationService.findOne(id);
     return notification;
+  }
+
+  @Patch(':id/read')
+  markAsRead(@Param('id') id: string) {
+    return this.notificationService.markAsRead(id);
   }
 }

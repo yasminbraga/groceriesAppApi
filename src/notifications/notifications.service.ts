@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { RequestNotificationDto } from './dto/request-notification.dto';
@@ -44,5 +44,16 @@ export class NotificationsService {
 
   async findOne(id: string) {
     return await this.notificationRepository.findOne({ where: { id } });
+  }
+
+  async markAsRead(id: string) {
+    const notification = await this.notificationRepository.findOne({
+      where: { id },
+    });
+
+    if (!notification) throw new NotFoundException();
+
+    notification.isRead = true;
+    return this.notificationRepository.save(notification);
   }
 }
