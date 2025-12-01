@@ -34,15 +34,15 @@ export class RecipesService {
     return await this.recipeRepository.save(data);
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     return await this.recipeRepository.findOne({ where: { id } });
   }
 
-  async update(id: number, updateRecipeDto: ResponseRecipeDTO) {
+  async update(id: string, updateRecipeDto: ResponseRecipeDTO) {
     return await this.recipeRepository.update(id, updateRecipeDto);
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     return await this.recipeRepository.delete(id);
   }
 }

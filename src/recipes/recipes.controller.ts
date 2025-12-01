@@ -40,7 +40,7 @@ export class RecipesController {
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    const foundRecipe = await this.recipesService.findOne(+id);
+    const foundRecipe = await this.recipesService.findOne(id);
     // return new ResponseRecipeDTO(foundRecipe);
     return foundRecipe;
   }
@@ -50,12 +50,12 @@ export class RecipesController {
     @Param('id') id: string,
     @Body() updateRecipeDto: ResponseRecipeDTO,
   ) {
-    return await this.recipesService.update(+id, updateRecipeDto);
+    return await this.recipesService.update(id, updateRecipeDto);
   }
 
   @Delete(':id')
   async remove(@Param('id') id: string) {
-    return await this.recipesService.remove(+id);
+    return await this.recipesService.remove(id);
   }
 
   @Post('many')
