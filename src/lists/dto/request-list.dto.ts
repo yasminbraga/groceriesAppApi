@@ -11,5 +11,5 @@ export class RequestListDto {
   }>;
 
   @IsOptional()
-  public readonly recipeId?: number;
+  public readonly recipeId?: string;
 }
