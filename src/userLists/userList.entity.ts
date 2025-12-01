@@ -11,7 +11,7 @@ export class UserList {
   userId: string;
 
   @Column()
-  listId: number;
+  listId: string;
 
   @Column()
   isCreatedByTheUser: boolean;
