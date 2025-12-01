@@ -26,11 +26,11 @@ export class ProductsController {
     @Param('id') id: string,
     @Body() responseProductDto: ResponseProductDto,
   ) {
-    return this.productsService.update(+id, responseProductDto);
+    return this.productsService.update(id, responseProductDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.productsService.remove(+id);
+    return this.productsService.remove(id);
   }
 }

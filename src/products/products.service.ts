@@ -21,11 +21,11 @@ export class ProductsService {
   //   return `This action returns a #${id} product`;
   // }
 
-  async update(id: number, responseProductDto: ResponseProductDto) {
+  async update(id: string, responseProductDto: ResponseProductDto) {
     return await this.productRepository.update(id, responseProductDto);
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     return await this.productRepository.delete(id);
   }
 }
