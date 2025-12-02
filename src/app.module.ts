@@ -22,6 +22,9 @@ import { UsersModule } from './users/users.module';
         url: configService.get<string>('DB_URL'),
         autoLoadEntities: true,
         synchronize: false,
+        ssl: {
+          rejectUnauthorized: false,
+        },
         entities: [join(process.cwd(), 'dist/**/*.entity.js')],
       }),
     }),
