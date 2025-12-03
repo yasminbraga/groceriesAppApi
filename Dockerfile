@@ -20,3 +20,5 @@ COPY --from=builder /app/dist ./dist
 
 EXPOSE 3000
 CMD ["npm", "run", "start:prod"]
+
+RUN npm run typeorm:migration:run
