@@ -6,7 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "nest build",
+    "build": "tsc -p tsconfig.build.json",
     "prestart:prod": "npm run migration:run:js",
     "start:prod": "node dist/main.js",
     "migration:run:js": "node ./node_modules/typeorm/cli.js migration:run -d ./dist/data-source.js",
