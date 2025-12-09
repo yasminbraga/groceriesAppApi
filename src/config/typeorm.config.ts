@@ -9,8 +9,8 @@ export const AppDataSource = new DataSource({
   type: 'postgres',
   url: configService.get<string>('DB_URL'),
   synchronize: false,
-  entities: ['**/*.entity.ts'],
-  migrations: ['src/database/migrations/*-migration.ts'],
+  entities: [__dirname + '/**/*.entity.js'],
+  migrations: [__dirname + '/database/migrations/*.js'],
   migrationsRun: false,
   logging: true,
   ssl:
