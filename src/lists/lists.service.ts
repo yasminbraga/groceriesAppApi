@@ -1,12 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Notification } from 'src/notifications/entities/notification.entity';
-import { NotificationsService } from 'src/notifications/notifications.service';
-import { Product } from 'src/products/entities/product.entity';
-import { Recipe } from 'src/recipes/entities/recipe.entity';
-import { UserList } from 'src/userLists/userList.entity';
-import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
+import { Notification } from '../notifications/entities/notification.entity';
+import { NotificationsService } from '../notifications/notifications.service';
+import { Product } from '../products/entities/product.entity';
+import { Recipe } from '../recipes/entities/recipe.entity';
+import { UserList } from '../userLists/userList.entity';
+import { User } from '../users/entities/user.entity';
 import { RequestListDto } from './dto/request-list.dto';
 import { ResponseListDto } from './dto/response-list.dto';
 import { List } from './entities/list.entity';

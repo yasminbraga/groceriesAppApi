@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Notification } from 'src/notifications/entities/notification.entity';
-import { NotificationsModule } from 'src/notifications/notifications.module';
-import { Product } from 'src/products/entities/product.entity';
-import { Recipe } from 'src/recipes/entities/recipe.entity';
-import { UserList } from 'src/userLists/userList.entity';
-import { User } from 'src/users/entities/user.entity';
+import { Notification } from '../notifications/entities/notification.entity';
+import { NotificationsModule } from '../notifications/notifications.module';
+import { Product } from '../products/entities/product.entity';
+import { Recipe } from '../recipes/entities/recipe.entity';
+import { UserList } from '../userLists/userList.entity';
+import { User } from '../users/entities/user.entity';
 import { List } from './entities/list.entity';
 import { ListsController } from './lists.controller';
 import { ListsService } from './lists.service';

@@ -1,6 +1,3 @@
-import { Product } from 'src/products/entities/product.entity';
-import { Recipe } from 'src/recipes/entities/recipe.entity';
-import { UserList } from 'src/userLists/userList.entity';
 import {
   Column,
   CreateDateColumn,
@@ -11,6 +8,9 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Product } from '../../products/entities/product.entity';
+import { Recipe } from '../../recipes/entities/recipe.entity';
+import { UserList } from '../../userLists/userList.entity';
 
 @Entity({ name: 'lists' })
 export class List {

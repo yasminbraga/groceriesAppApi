@@ -9,8 +9,8 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { AuthGuard } from 'src/auth/auth.guard';
-import { AuthenticatedRequest } from 'src/auth/interfaces/auth-request.interface';
+import { AuthGuard } from '../auth/auth.guard';
+import { AuthenticatedRequest } from '../auth/interfaces/auth-request.interface';
 import { RequestListDto } from './dto/request-list.dto';
 import { ResponseListDto } from './dto/response-list.dto';
 import { ListsService } from './lists.service';

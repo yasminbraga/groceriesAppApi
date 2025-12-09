@@ -1,5 +1,3 @@
-import { List } from 'src/lists/entities/list.entity';
-import { User } from 'src/users/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
@@ -9,6 +7,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { List } from '../../lists/entities/list.entity';
+import { User } from '../../users/entities/user.entity';
 
 @Entity({ name: 'recipes' })
 export class Recipe {

@@ -1,7 +1,4 @@
 import { IsEmail, Length } from 'class-validator';
-import { Notification } from 'src/notifications/entities/notification.entity';
-import { Recipe } from 'src/recipes/entities/recipe.entity';
-import { UserList } from 'src/userLists/userList.entity';
 import {
   Column,
   CreateDateColumn,
@@ -10,6 +7,9 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Notification } from '../../notifications/entities/notification.entity';
+import { Recipe } from '../../recipes/entities/recipe.entity';
+import { UserList } from '../../userLists/userList.entity';
 
 @Entity({ name: 'users' })
 export class User {

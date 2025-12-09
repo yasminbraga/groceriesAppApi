@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { List } from 'src/lists/entities/list.entity';
-import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
+import { List } from '../lists/entities/list.entity';
+import { User } from '../users/entities/user.entity';
 import { UserList } from './userList.entity';
 
 @Injectable()

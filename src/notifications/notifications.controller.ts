@@ -1,6 +1,6 @@
 import { Controller, Get, Param, Patch, Req, UseGuards } from '@nestjs/common';
-import { AuthGuard } from 'src/auth/auth.guard';
-import { AuthenticatedRequest } from 'src/auth/interfaces/auth-request.interface';
+import { AuthGuard } from '../auth/auth.guard';
+import { AuthenticatedRequest } from '../auth/interfaces/auth-request.interface';
 import { NotificationsService } from './notifications.service';
 
 @Controller('notifications')
