@@ -10,6 +10,7 @@
     "prestart:prod": "npm run migration:run:js",
     "start:prod": "node dist/main.js",
     "migration:run:js": "node ./node_modules/typeorm/cli.js migration:run -d dist/config/typeorm.config.js",
+    "migration:show": "node ./node_modules/typeorm/cli.js migration:show -d dist/config/typeorm.config.js",
     "migration:generate": "npx ts-node -P ./tsconfig.json -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:generate -d ./src/config/typeorm.config.ts ./src/database/migrations/migration",
     "migration:run": "npx ts-node -P ./tsconfig.json -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d ./src/config/typeorm.config.ts",
     "migration:create": "npx ts-node -P ./tsconfig.json -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:create -d ./src/config/typeorm.config.ts ./src/database/migrations/migration",
